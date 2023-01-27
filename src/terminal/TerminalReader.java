@@ -6,6 +6,7 @@ import terminal.executable.CommandExecutable;
 import terminal.executable.CommandExecutableFactory;
 import terminal.executable.CommandExecutableFactoryImpl;
 import terminal.executable.LogingCommandExecutableFactory;
+import terminal.show.ShowCommandFactory;
 
 public class TerminalReader {
     private static TerminalReader terminalReader;
@@ -29,7 +30,10 @@ public class TerminalReader {
         while (true) {
             String command = in.nextLine();
             Command parseCommand = commandParser.parseCommand(command);
-            commandExecutableFactory.command(parseCommand);
+            CommandExecutable commandExecutable = commandExecutableFactory.command(parseCommand);
+            commandExecutableFactory.command(parseCommand).execute();
+            ShowCommandFactory showCommandFactory = new ShowCommandFactory();
+            showCommandFactory.show(parseCommand, commandExecutable).show();
         }
     }
 }
